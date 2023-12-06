@@ -6,7 +6,8 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import unoCSS from 'unocss/vite'
 import icons from 'unplugin-icons/vite'
 
-import autoComponents from 'unplugin-vue-components/vite'
+// import autoComponents from 'unplugin-vue-components/vite'
+import vueDevTools from 'vite-plugin-vue-devtools'
 
 // import {
 //   AntDesignVueResolver,
@@ -16,6 +17,11 @@ import autoComponents from 'unplugin-vue-components/vite'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    vueDevTools({
+      analyze: {
+        rerenderTrace: false,
+      },
+    }),
     vue(),
     vueJsx(),
     unoCSS(),
@@ -23,15 +29,15 @@ export default defineConfig({
       autoInstall: true,
       compiler: 'vue3',
     }),
-    autoComponents({
-      dts: true,
-      dirs: ['src/components'],
-      extensions: ['vue', 'tsx'],
-      // resolvers: [
-      // AntDesignVueResolver(),
-      // NaiveUiResolver(),
-      // ],
-    }),
+    // autoComponents({
+    //   dts: true,
+    //   dirs: ['src/components'],
+    //   extensions: ['vue', 'tsx'],
+    //   resolvers: [
+    //   AntDesignVueResolver(),
+    //   NaiveUiResolver(),
+    //   ],
+    // }),
   ],
   resolve: {
     alias: {
