@@ -54,7 +54,7 @@ export class X6Designer {
   }
 
   getDropNode(draggingNode: Node): Node {
-    const bindData = draggingNode.store.data.bindData.config
+    const bindData = draggingNode.data.sideConfig
     const widgetStore = useWidgetStoreOutSide()
     const settingInstance = settingMap[`${WIDGET_PREFIX}${bindData.type}`]
     const itemSettings = settingInstance.initSettings()
@@ -67,12 +67,12 @@ export class X6Designer {
       shape: 'x6-designer-vue-view',
       width: 100,
       height: 40,
-      bindData: {
-        config: sideConfig,
+      data: {
+        sideConfig,
       },
     })
     if (node) {
-      this.dnd.start(node, e)
+      this.dnd?.start(node, e)
     }
   }
 }

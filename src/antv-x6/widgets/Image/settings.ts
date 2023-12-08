@@ -8,7 +8,7 @@ export interface ImageSettingsConfig extends BasicSettingsConfig {
 }
 
 export default class ImageSettings extends WidgetBasicSettings<ImageSettingsConfig> {
-  static widgetType = WidgetTypeEnum.Text
+  static widgetType = WidgetTypeEnum.Image
   initSettings(): ImageSettingsConfig {
     return {
       width: 100,

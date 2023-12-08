@@ -14,7 +14,7 @@ export default defineComponent({
   setup() {
     const getNode = inject('getNode') as () => VueShape
     function getRender() {
-      const bindDataConfig: SideConfig = getNode().store.data.bindData.config
+      const bindDataConfig = getNode().data.sideConfig as unknown as SideConfig
       const key = `${WIDGET_PREFIX}${bindDataConfig.type}`
       return widgetMap[key] || null
     }
