@@ -1,18 +1,26 @@
 <script lang="tsx">
 import type { VueShape } from '@antv/x6-vue-shape'
-import { computed, defineComponent, h, inject } from 'vue'
+import { defineComponent, h, inject } from 'vue'
+import type { SideConfig } from '@/antv-x6/components/DesignerLayout/LeftSide/sideConfig'
+import { WIDGET_PREFIX, widgetMap } from '@/antv-x6/register'
+
+// const Empty = h('span', '未找到组件引用')
 
 export default defineComponent({
   name: 'RenderEntrance',
+  components: {
+    ...widgetMap,
+  },
   setup() {
     const getNode = inject('getNode') as () => VueShape
-    // const getGraph = inject('getGraph') as () => Graph
-    const widgetId = computed(() => getNode().id)
-    console.log('widgets =', widgetId)
-    // const componet = widgets[]
-    // const RenderComponent = resolveComponent()
+    function getRender() {
+      const bindDataConfig: SideConfig = getNode().store.data.bindData.config
+      const key = `${WIDGET_PREFIX}${bindDataConfig.type}`
+      return widgetMap[key] || null
+    }
     return () => {
-      return h('div', widgetId)
+      const Render = getRender()
+      return Render ? h(Render) : h('span', '没有啊')
     }
   },
 })

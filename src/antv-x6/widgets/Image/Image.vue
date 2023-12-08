@@ -1,17 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { WidgetTypeEnum } from '@/antv-x6/enum/WidgetType'
 
 defineOptions({
-  widgetType: WidgetTypeEnum.Text,
+  widgetType: WidgetTypeEnum.Image,
 })
-
-const text = ref('文本')
 </script>
 
 <template>
   <div class="x6-text">
-    {{ text }}
+    <img src="@/assets/tom.jpg" alt="">
   </div>
 </template>
 

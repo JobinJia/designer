@@ -1,44 +1,25 @@
 <script setup lang="ts">
-import { Graph } from '@antv/x6'
-import { Scroller } from '@antv/x6-plugin-scroller'
 import { onMounted, ref } from 'vue'
 import { getTeleport, register } from '@antv/x6-vue-shape'
-import { useGraphStore } from '@/stores/antvx6/graph'
+import { X6Designer } from '@/antv-x6/logics/X6Designer'
+import { useDesignerStore } from '@/stores/antvx6/designer'
 import RenderEntrance from '@/antv-x6/components/RenderEntrance/RenderEntrance.vue'
 
 register({
-  shape: 'custom-vue-node',
+  shape: 'x6-designer-vue-view',
   width: 100,
   height: 100,
   component: RenderEntrance,
 })
 const TeleportContainer = getTeleport()
 
-const { setGraph } = useGraphStore()
+const { setDesigner } = useDesignerStore()
 
 const x6ContainerRefEl = ref<HTMLDivElement | null>(null)
 
 onMounted(() => {
-  if (!x6ContainerRefEl.value) {
-    console.warn(`初始化antv/x6失败，未找到dom`, dom)
-    return
-  }
-  const graphIns = new Graph({
-    container: x6ContainerRefEl.value,
-    autoResize: true,
-    background: {
-      color: '#F2F7FA',
-    },
-  })
-  graphIns.use(new Scroller({
-    enabled: true,
-  }))
-  graphIns.addNode({
-    shape: 'custom-vue-node',
-    x: 100,
-    y: 60,
-  })
-  setGraph(graphIns)
+  const designerInstance = new X6Designer(x6ContainerRefEl.value!)
+  setDesigner(designerInstance)
 })
 </script>
 

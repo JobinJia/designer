@@ -1,35 +1,28 @@
 <script setup lang="ts">
-import { Dnd } from '@antv/x6-plugin-dnd'
-import { onMounted } from 'vue'
-import { useGraphStore } from '@/stores/antvx6/graph'
+import { storeToRefs } from 'pinia'
+import { unref } from 'vue'
+import type { SideConfig } from './sideConfig'
+import { sideConfigs } from './sideConfig'
+import { useDesignerStore } from '@/stores/antvx6/designer'
 
-const { graph } = useGraphStore()
+const designerStore = useDesignerStore()
 
-let dnd: Dnd | null = null
+const { designer } = storeToRefs(designerStore)
 
-onMounted(() => {
-  dnd = new Dnd({
-    target: graph.value,
-  })
-})
-function startDrag(e: MouseEvent<HTMLDivElement, MouseEvent>) {
+function startDrag(item: SideConfig, e: MouseEvent) {
   // 该 node 为拖拽的节点，默认也是放置到画布上的节点，可以自定义任何属性
-  const node = graph.value.createNode({
-    shape: 'rect',
-    width: 100,
-    height: 40,
-  })
-  dnd?.start(node, e.nativeEvent)
+  unref(designer)?.startDrag(item, e)
 }
 </script>
 
 <template>
   <div class="left-side">
     <div class="left-side-list">
-      <div @click="startDrag">
-        文本
+      <div v-for="(group, idx) in sideConfigs" :key="`widget-group-${idx}`" class="widget-group">
+        <div v-for="(item, cIdx) in group.children" :key="`widget-item-${idx}-${cIdx}`" class="widget-item" @mousedown="startDrag(item, $event)">
+          {{ item.name }}
+        </div>
       </div>
-      <div>图片</div>
     </div>
   </div>
 </template>
