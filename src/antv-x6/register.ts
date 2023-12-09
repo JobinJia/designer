@@ -7,11 +7,10 @@ export const widgetMap = Object.values(widgets).reduce((map, widget) => {
   return map
 }, {} as { [k: string]: any })
 
-const settings = import.meta.glob('./widgets/**/settings.ts', { eager: true })
+const settings: Record<string, any> = import.meta.glob('./widgets/**/settings.ts', { eager: true })
 
 export const settingMap: Record<string, any> = Object.values(settings).reduce((map, module) => {
   const ClassName = module.default
   map[`${WIDGET_PREFIX}${ClassName.widgetType}`] = new ClassName()
   return map
-}, {})
-console.log(settingMap)
+}, {} as Record<string, any>)

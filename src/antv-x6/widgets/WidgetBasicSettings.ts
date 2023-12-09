@@ -7,6 +7,6 @@ export interface BasicSettingsConfig {
 }
 
 export default abstract class WidgetBasicSettings<Settings extends BasicSettingsConfig> {
-  abstract readonly widgetType: WidgetTypeEnum
+  static widgetType: WidgetTypeEnum
   abstract initSettings: () => Settings
 }
