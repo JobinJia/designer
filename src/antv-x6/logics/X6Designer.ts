@@ -79,7 +79,7 @@ export class X6Designer {
       this.transform = new Transform({
         resizing: {
           enabled: true,
-          orthogonal: false,
+          orthogonal: true,
           restrict: false,
           preserveAspectRatio: false,
         },
@@ -153,10 +153,12 @@ export class X6Designer {
   }
 
   startDrag(sideConfig: SideConfig, e: MouseEvent) {
+    const settingInstance = settingMap[`${WIDGET_PREFIX}${sideConfig.type}`]
+    const initSettings = settingInstance.initSettings()
     const node = this.graph?.createNode({
       shape: 'x6-designer-vue-view',
-      width: 100,
-      height: 40,
+      width: initSettings.width,
+      height: initSettings.height,
       data: {
         sideConfig,
       },

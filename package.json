@@ -29,6 +29,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@antv/g2": "^5.1.11",
     "@antv/x6": "^2.16.1",
     "@antv/x6-plugin-clipboard": "^2.1.6",
     "@antv/x6-plugin-dnd": "^2.1.1",
@@ -43,6 +44,7 @@
     "@antv/x6-vue-shape": "^2.1.1",
     "alova": "^2.16.0",
     "pinia": "^2.1.7",
+    "primevue": "^3.43.0",
     "vue": "^3.3.11",
     "vue-router": "^4.2.5"
   },

@@ -11,7 +11,7 @@ export default class ImageSettings extends WidgetBasicSettings<ImageSettingsConf
   static widgetType = WidgetTypeEnum.Image
   initSettings = (): ImageSettingsConfig => ({
     width: 100,
-    height: 50,
+    height: 100,
     name: getName('图片'),
   })
 }
