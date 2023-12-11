@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { Chart } from '@antv/g2'
+import { Line } from '@antv/g2plot'
 import { useDefaultSettings } from '@/antv-x6/hooks/defaultSettings'
 import ChartSettings from '@/antv-x6/widgets/Chart/settings'
 import { WidgetTypeEnum } from '@/antv-x6/enum/WidgetType'
@@ -13,31 +13,44 @@ const { options } = useDefaultSettings(ChartSettings)
 console.log(options)
 
 onMounted(() => {
-  const chart = new Chart({
-    container: 'g2Container',
-    autoFit: true,
-    insetRight: 10,
-  })
+  const seriesKey = 'series'
+  const valueKey = 'value'
+  function processData(data: any, yFields: any, seriesField: any, meta: any) {
+    const result: any = []
+    data.forEach((d: any) => {
+      yFields.forEach((yField: any) => {
+        const name = meta?.[yField]?.alias || yField
+        result.push({ ...d, date: d.date, [seriesKey]: `${d[seriesField]}:${name}`, [valueKey]: d[yField] })
+      })
+    })
+    return result
+  }
 
-  chart
-    .line()
-    .data({
-      type: 'fetch',
-      value: 'https://assets.antv.antgroup.com/g2/indices.json',
+  fetch('https://gw.alipayobjects.com/os/antfincdn/UjzkGj7yin/multiple-measures-line-data.json')
+    .then(data => data.json())
+    .then((data) => {
+      const meta = {
+        date: {
+          alias: '销售日期',
+        },
+        price: {
+          alias: '单价',
+        },
+        discount_price: {
+          alias: '折扣单价',
+        },
+      }
+      const line = new Line('g2Container', {
+        data: processData(data, ['price', 'discount_price'], 'channel', meta),
+        padding: 'auto',
+        xField: 'date',
+        yField: valueKey,
+        seriesField: seriesKey,
+        appendPadding: [0, 8, 0, 0],
+      })
+
+      line.render()
     })
-    .transform({ type: 'normalizeY', basis: 'first', groupBy: 'color' })
-    .encode('x', (d: any) => new Date(d.Date))
-    .encode('y', 'Close')
-    .encode('color', 'Symbol')
-    .scale('y', { type: 'log' })
-    .axis('y', { title: '↑ Change in price (%)' })
-    .label({
-      text: 'Symbol',
-      selector: 'last',
-      fontSize: 10,
-    })
-    .tooltip({ channel: 'y', valueFormatter: '.1f' })
-  chart.render()
 })
 </script>
 

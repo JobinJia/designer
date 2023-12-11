@@ -25,8 +25,12 @@ export const sideConfigs: Array<SideConfigGroup> = [
         type: WidgetTypeEnum.Image,
       },
       {
-        name: '图表',
+        name: 'g2',
         type: WidgetTypeEnum.Chart,
+      },
+      {
+        name: 'l7',
+        type: WidgetTypeEnum.L7PLOT,
       },
     ],
   },
